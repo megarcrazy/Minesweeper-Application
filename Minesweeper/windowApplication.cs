@@ -9,99 +9,87 @@ namespace Minesweeper
         private WindowsTile[][] WindowsTileArray; 
         private BackEnd backEnd;
 
-        private int width = 10;
-        private int height = 10;
+        public WindowApplication() { InitializeComponent(); }
 
-
-        public WindowApplication()
+        private void MyButtonClickHandler(object sender, MouseEventArgs e)
         {
-            InitializeComponent();
+            WindowsTile ClickedButton = (WindowsTile)sender;
+            int x = ClickedButton.GetX();
+            int y = ClickedButton.GetY();
+
+            // Left click to sweep tile. Right click to flag tile.
+            int command = Constants.CommandSweepTile;
+            if (e.Button == MouseButtons.Right) { command = Constants.CommandFlagTile; }
+
+            UpdateBackEnd(new int[] { x, y, command });
+            UpdateVisual();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Initiate(int width, int height, int bombsCount)
         {
-            
+            backEnd = new BackEnd(width, height, bombsCount);
+            AddGrids(width, height, bombsCount);
+            KeyDown += new KeyEventHandler(FormKeyDown);
         }
 
-        private void Initiate(int size)
-        {
-            width = size;
-            height = size;
-            backEnd = new BackEnd(width, height);
-            this.KeyDown += new KeyEventHandler(this.Form1_KeyDown);
-            AddGrids();
-        }
-
-        private void AddGrids()
+        private void AddGrids(int width, int height, int bombsCount)
         {
             WindowsTileArray = new WindowsTile[width][];
             WindowsTile windowstile;
             for (int i = 0; i < width; i++)
             {
-                WindowsTileArray[i] = new WindowsTile[width];
+                WindowsTileArray[i] = new WindowsTile[height];
                 for (int j = 0; j < height; j++)
                 {
                     windowstile = new WindowsTile(i, j, width, height);
                     windowstile.MouseUp += MyButtonClickHandler;
                     WindowsTileArray[i][j] = windowstile;
-                    this.Controls.Add(windowstile);
+                    Controls.Add(windowstile);
                 }
             }
         }
 
-        private void MyButtonClickHandler(object sender, MouseEventArgs e)
-        {
-            int command = 0;
-            WindowsTile ClickedButton = (WindowsTile)sender;
-            int x = ClickedButton.GetX();
-            int y = ClickedButton.GetY();
-            if (e.Button == MouseButtons.Right)
-            {
-                command = 1;
-            }
-            UpdateBackEnd(new int[] { x, y, command});
-            UpdateVisual();
-        }
-
-        private void UpdateBackEnd(int[] UserInput)
-        {
-            backEnd.logic.Run(UserInput);
-        }
+        private void UpdateBackEnd(int[] UserInput) { backEnd.logic.Run(UserInput); }
 
         private void UpdateVisual()
         {
             Tile[][] tileArray = backEnd.logic.grid.GetTileArray();
-            int i = tileArray.Length;
-            int j = tileArray[0].Length;
-
+            WindowsTile windowsTile;
             Tile tile;
-            for (int m = 0; m < i; m++)
+            for (int m = 0; m < tileArray.Length; m++)
             {
-                for (int n = 0; n < j; n++)
+                for (int n = 0; n < tileArray[0].Length; n++)
                 {
                     tile = tileArray[m][n];
-                    if (tile.IsRevealed() == true)
+                    windowsTile = WindowsTileArray[m][n];
+                    if (tile.IsRevealed())
                     {
-                        WindowsTileArray[m][n].BackColor = Color.SlateGray;
-                        if (tile.IsBomb() == true)
+                        windowsTile.BackColor = Color.White;
+                        if (tile.IsBomb())
                         {
-                            WindowsTileArray[m][n].ChangeText("X");
+                            windowsTile.ChangeText("X");
                         }
                         else if (tile.GetAdjacentBombsCount() != 0)
                         {
-                            WindowsTileArray[m][n].ChangeText($"{tile.GetAdjacentBombsCount()}");
+                            windowsTile.ChangeText(tile.GetAdjacentBombsCount().ToString());
                         }
                     }
-                    if (tile.IsFlagged() == true)
+                    else if (tile.IsFlagged())
                     {
                         WindowsTileArray[m][n].ChangeText("F");
+                    }
+                    else
+                    {
+                        WindowsTileArray[m][n].ChangeText("");
                     }
                 }
             }
         }
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        // Detect keys pressed by user
+        private void FormKeyDown(object sender, KeyEventArgs e)
         {
+            // Restarts program if "r" is pressed on the keyboard
             if (e.KeyCode == Keys.R)
             {
                 Application.Restart();
@@ -110,33 +98,31 @@ namespace Minesweeper
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void EasyButton(object sender, EventArgs e)
         {
-            this.Controls.Clear();
-            Initiate(10);
+            Controls.Clear();
+            Initiate(9, 9, 10);
             Button buttonToRemove = (Button)sender;
-            this.Controls.Remove(buttonToRemove);
+            Controls.Remove(buttonToRemove);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void MediumButton(object sender, EventArgs e)
         {
-            this.Controls.Clear();
-            Initiate(20);
+            Controls.Clear();
+            Initiate(16, 16, 40);
             Button buttonToRemove = (Button)sender;
-            this.Controls.Remove(buttonToRemove);
+            Controls.Remove(buttonToRemove);
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void HardButton(object sender, EventArgs e)
         {
-            this.Controls.Clear();
-            Initiate(30);
+            Controls.Clear();
+            Initiate(25, 25, 80);
             Button buttonToRemove = (Button)sender;
-            this.Controls.Remove(buttonToRemove);
+            Controls.Remove(buttonToRemove);
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        private void FormLoad(object sender, EventArgs e) {}
+        private void TextBoxTextChanged(object sender, EventArgs e) {}
     }
 }

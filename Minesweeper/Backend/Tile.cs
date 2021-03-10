@@ -1,16 +1,12 @@
-﻿using System;
-
-namespace Minesweeper
+﻿namespace Minesweeper
 {
     public class Tile
     {
-        private int x;
-        private int y;
-
-        private bool Revealed = false;
-        private bool Bomb = false;
-        private int AdjacentBombsCount = 0;
-        private bool Flagged = false;
+        private readonly int x, y;
+        private int adjacentBombsCount = 0;
+        private bool revealed = false;
+        private bool bomb = false;
+        private bool flagged = false;
 
         public Tile(int x, int y)
         {
@@ -18,54 +14,20 @@ namespace Minesweeper
             this.y = y;
         }
 
-        public int GetX()
-        {
-            return x;
-        }
+        // Public Functions
 
-        public int GetY()
-        {
-            return y;
-        }
+        // Get Functions
+        public int GetX() { return x; }
+        public int GetY() { return y; }
+        public int GetAdjacentBombsCount() { return adjacentBombsCount; }
+        public bool IsRevealed() { return revealed; }
+        public bool IsBomb() { return bomb; }
+        public bool IsFlagged() { return flagged; }
 
-        public void Reveal()
-        {
-            Revealed = true;
-        }
-
-        public void AddBomb()
-        {
-            Bomb = true;
-        }
-
-        public int GetAdjacentBombsCount()
-        {
-            return AdjacentBombsCount;
-        }
-
-        public bool IsRevealed()
-        {
-            return Revealed;
-        }
-
-        public bool IsBomb()
-        {
-            return Bomb;
-        }
-
-        public void IncreaseAdjacentBombsCount()
-        {
-            AdjacentBombsCount++;
-        }
-
-        public void Flag()
-        {
-            Flagged = true;
-        }
-
-        public bool IsFlagged()
-        {
-            return Flagged;
-        }
+        // Logic Functions
+        public void AddBomb() { bomb = true; }
+        public void Reveal() { revealed = true; }
+        public void IncreaseAdjacentBombsCount() { adjacentBombsCount++; }
+        public void Flag() { flagged = !flagged; }
     }
 }

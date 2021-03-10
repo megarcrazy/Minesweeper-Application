@@ -6,57 +6,40 @@ namespace Minesweeper
 {
     public class Grid
     {
-        public int width;
-        public int height;
+        public int width, height;
 
         private readonly int size;
-        private readonly float BombFraction = 0.125f;
-        private int BombCount;
-        private int TilesLeft;
+        private readonly float bombFraction = 0.125f;
+        private int bombsCount, tilesLeft;
         private Tile[][] tileArray;
         private bool HitBomb = false;
 
-        public Grid(int width, int height)
+        public Grid(int width, int height, int bombsCount)
         {
             this.width = width;
             this.height = height;
+            this.bombsCount = bombsCount;
             size = width * height;
 
             Start();
         }
 
-        public Tile[][] GetTileArray()
-        {
-            return tileArray;
-        }
+        public Tile[][] GetTileArray() { return tileArray; }
 
         public int GetTilesLeft()
         {
-            return TilesLeft;
+            return tilesLeft;
         }
 
-        public int GetBombCount()
-        {
-            return BombCount;
-        }
+        public int GetBombsCount() { return bombsCount; }
 
-        public bool GetHitBomb()
-        {
-            return HitBomb;
-        }
+        public bool GetHitBomb() { return HitBomb; }
 
         private void Start()
         {
             AddTiles();
             AddBombs();
             CountAdjacentBombs();
-        }
-
-        private void CheckInputErrors()
-        {
-            Debug.Assert(width >= 5);
-            Debug.Assert(height >= 5);
-            Debug.Assert(BombFraction < 0.4f);
         }
 
         private void AddTiles()
@@ -75,9 +58,8 @@ namespace Minesweeper
 
         private void AddBombs()
         {
-            BombCount = (int)Math.Floor(BombFraction * size);
-            TilesLeft = size - BombCount;
-            for (int i = 0; i < BombCount; i++)
+            tilesLeft = size - bombsCount;
+            for (int i = 0; i < bombsCount; i++)
             {
                 if (!InsertRandomBomb())
                 {
@@ -90,9 +72,8 @@ namespace Minesweeper
         private bool InsertRandomBomb()
         {
             Random rand = new Random();
-            int number = rand.Next(size);
-            int x = number / width;
-            int y = number % height;
+            int x = rand.Next(width);
+            int y = rand.Next(height);
             Tile tile = tileArray[x][y];
             if (!tile.IsBomb())
             {
@@ -127,9 +108,10 @@ namespace Minesweeper
             }
         }
 
+        // Iterator returns adjacent tiles surrounding the given tile coordinates
         private IEnumerable<Tile> GetAdjacentTiles(int i, int j)
         {
-            int[][] adjacentIndexList = AdjacentIndexList.Get();
+            int[][] adjacentIndexList = AdjacentIndexList.Get(true);
             int x, y;
             foreach (int[] adjacentIndex in adjacentIndexList)
             {
@@ -143,9 +125,12 @@ namespace Minesweeper
         }
 
         //Interactions between the user input and the game
+
+        // DFS sweep tiles
         public void Sweep(int[] Coords, int round = 0)
         {
-            int i = Coords[0]; int j = Coords[1];
+            int i = Coords[0];
+            int j = Coords[1];
             int command = Coords[2];
             Tile tile = tileArray[i][j];
 
@@ -154,21 +139,28 @@ namespace Minesweeper
                 FirstRound(tile);
                 tile = tileArray[i][j];
             }
-
+            
             if (!tile.IsRevealed())
             {
-                if (command == 1)
+                if (command == Constants.CommandSweepTile)
+                {
+                    // Prevent sweeping tile if flagged or has already been revealed
+                    if (!tile.IsFlagged())
+                    {
+                        if (tile.IsBomb())
+                        {
+                            SetHitBomb(tile);
+                        }
+                        else
+                        {
+                            SuccessfulSweep(tile);
+                            SweepAlgorithm(tile);
+                        }
+                    }
+                }
+                else if (command == Constants.CommandFlagTile)
                 {
                     tile.Flag();
-                }
-                else if (tile.IsBomb())
-                {
-                    SetHitBomb(tile);
-                }
-                else
-                {
-                    SuccessfulSweep(tile);
-                    SweepAlgorithm(tile);
                 }
             }
         }
@@ -182,7 +174,7 @@ namespace Minesweeper
         private void SuccessfulSweep(Tile tile)
         {
             tile.Reveal();
-            TilesLeft--;
+            tilesLeft--;
         }
 
         private void SweepAlgorithm(Tile tile)

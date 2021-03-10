@@ -1,71 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Drawing;
 
 namespace Minesweeper
 {
     public class WindowsTile : Button
     {
-        const int SCREENWIDTH = 500;
-        const int SCREENHEIGHT = 500;
-        private readonly int TileWidth, TileHeight;
-        private readonly int i, j;
+        const int SCREENWIDTH = Constants.ScreenWidth;
+        const int SCREENHEIGHT = Constants.ScreenHeight;
+        private readonly int x, y;
 
-        //Allocate a tile to 
-        public WindowsTile(int i, int j, int x, int y)
+        public WindowsTile(int x, int y, int gridX, int GridY)
         {
-            this.i = i;
-            this.j = j;
-            TileWidth = SCREENWIDTH/x;
-            TileHeight = SCREENHEIGHT/y;
-            Initialise();
+            this.x = x;
+            this.y = y;
+            int visualTileWidth = SCREENWIDTH/gridX;
+            int visualTileHeight = SCREENHEIGHT/GridY;
+            Initialise(x, y, visualTileWidth, visualTileHeight);
         }
 
-        private void Initialise()
+        private void Initialise(int x, int y, int visualTileWidth, int visualTileHeight)
         {
-            this.SetStyle(ControlStyles.Selectable, false);
-            this.Size = new Size(TileWidth, TileHeight);
-            this.Font = new Font(this.Font.FontFamily, TileWidth/2-2);
-            this.Location = new Point(i * TileWidth, j * TileHeight);
-            this.TextAlign = ContentAlignment.MiddleCenter;
+            SetStyle(ControlStyles.Selectable, false);
+            Size = new Size(visualTileWidth, visualTileHeight);
+            Font = new Font(Font.FontFamily, visualTileWidth / 2);
+            Location = new Point(x * visualTileWidth, y * visualTileHeight);
+            TextAlign = ContentAlignment.MiddleCenter;
         }
 
-        public int GetX()
+        public int GetX() { return x; }
+        public int GetY() { return y; }
+        
+        // Different tile texts have different colours
+        public void ChangeText(string text)
         {
-            return i;
-        }
-
-        public int GetY()
-        {
-            return j;
-        }
-
-        public void ChangeText(string Text)
-        {
-            this.Text = Text;
-            if (Text == "1")
+            Text = text;
+            switch (text)
             {
-                this.ForeColor = Color.Blue;
-            }
-            else if (Text == "2")
-            {
-                this.ForeColor = Color.LightGreen;
-            }
-            else if (Text == "3")
-            {
-                this.ForeColor = Color.Red;
-            }
-            else if (Text == "4")
-            {
-                this.ForeColor = Color.DarkBlue;
-            }
-            else if (Text == "5")
-            {
-                this.ForeColor = Color.DarkRed;
+                case "1":
+                    ForeColor = Color.Blue;
+                    break;
+                case "2":
+                    ForeColor = Color.Green;
+                    break;
+                case "3":
+                    ForeColor = Color.Red;
+                    break;
+                case "4":
+                    ForeColor = Color.DarkBlue;
+                    break;
+                default:
+                    ForeColor = Color.DarkRed;
+                    break;
             }
         }
     }

@@ -8,7 +8,7 @@ namespace Minesweeper
         private static IEnumerable<Tile> SearchGrid(Grid grid)
         {
             Console.Write('\n');
-            Console.Write($"Bombs: {grid.GetBombCount()}\n");
+            Console.Write($"Bombs: {grid.GetBombsCount()}\n");
             PrintXCoords(grid);
             for (int j = 0; j < grid.height; j++)
             {
