@@ -52,6 +52,7 @@
     <Compile Include="Backend\Logic.cs" />
     <Compile Include="Backend\PrintGame.cs" />
     <Compile Include="Backend\Tile.cs" />
+    <Compile Include="UserInput.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="WindowsTile.cs">
       <SubType>Component</SubType>

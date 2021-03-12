@@ -5,26 +5,27 @@ namespace Minesweeper
 {
     public class WindowsTile : Button
     {
-        const int SCREENWIDTH = Constants.ScreenWidth;
-        const int SCREENHEIGHT = Constants.ScreenHeight;
         private readonly int x, y;
 
         public WindowsTile(int x, int y, int gridX, int GridY)
         {
             this.x = x;
             this.y = y;
-            int visualTileWidth = SCREENWIDTH/gridX;
-            int visualTileHeight = SCREENHEIGHT/GridY;
+            int visualTileWidth = Constants.ScreenWidth/ gridX;
+            int visualTileHeight = Constants.ScreenHeight/ GridY;
             Initialise(x, y, visualTileWidth, visualTileHeight);
         }
 
         private void Initialise(int x, int y, int visualTileWidth, int visualTileHeight)
         {
             SetStyle(ControlStyles.Selectable, false);
-            Size = new Size(visualTileWidth, visualTileHeight);
-            Font = new Font(Font.FontFamily, visualTileWidth / 2);
+            Size = new Size(visualTileWidth, visualTileHeight); 
             Location = new Point(x * visualTileWidth, y * visualTileHeight);
+
+            // Tile button style
+            Font = new Font(Font.FontFamily, visualTileWidth / 2 - Constants.ButtonBorderThickness);
             TextAlign = ContentAlignment.MiddleCenter;
+            BackColor = Color.LightGray;
         }
 
         public int GetX() { return x; }

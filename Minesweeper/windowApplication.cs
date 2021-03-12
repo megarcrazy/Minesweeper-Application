@@ -21,11 +21,11 @@ namespace Minesweeper
             int command = Constants.CommandSweepTile;
             if (e.Button == MouseButtons.Right) { command = Constants.CommandFlagTile; }
 
-            UpdateBackEnd(new int[] { x, y, command });
+            UpdateBackEnd(new UserInput(x, y, command));
             UpdateVisual();
         }
 
-        private void Initiate(int width, int height, int bombsCount)
+        private void StartGame(int width, int height, int bombsCount)
         {
             backEnd = new BackEnd(width, height, bombsCount);
             AddGrids(width, height, bombsCount);
@@ -49,11 +49,19 @@ namespace Minesweeper
             }
         }
 
-        private void UpdateBackEnd(int[] UserInput) { backEnd.logic.Run(UserInput); }
+        private void UpdateBackEnd(UserInput userInput) {
+            backEnd.logic.Update(userInput);
+        }
 
         private void UpdateVisual()
         {
-            Tile[][] tileArray = backEnd.logic.grid.GetTileArray();
+            UpdateBoard();
+            PopUp();
+        }
+
+        private void UpdateBoard()
+        {
+            Tile[][] tileArray = backEnd.logic.GetTileArray();
             WindowsTile windowsTile;
             Tile tile;
             for (int m = 0; m < tileArray.Length; m++)
@@ -62,6 +70,7 @@ namespace Minesweeper
                 {
                     tile = tileArray[m][n];
                     windowsTile = WindowsTileArray[m][n];
+                    windowsTile.ChangeText("");
                     if (tile.IsRevealed())
                     {
                         windowsTile.BackColor = Color.White;
@@ -76,13 +85,27 @@ namespace Minesweeper
                     }
                     else if (tile.IsFlagged())
                     {
-                        WindowsTileArray[m][n].ChangeText("F");
-                    }
-                    else
-                    {
-                        WindowsTileArray[m][n].ChangeText("");
+                        windowsTile.ChangeText("F");
                     }
                 }
+            }
+        }
+
+        // Adds pop ups for winning or losing
+        private void PopUp()
+        {
+            int gameStatus = backEnd.GetStatus();
+            string message;
+            string returnToMenuMessage = "Press r to return back to the menu.";
+            if (gameStatus == Constants.Win)
+            {
+                message = "Wow! You Won! " + returnToMenuMessage;
+                System.Windows.Forms.MessageBox.Show(message);
+            }
+            else if (gameStatus == Constants.Lose)
+            {
+                message = "Boo! You Lost! " + returnToMenuMessage;
+                System.Windows.Forms.MessageBox.Show(message);
             }
         }
 
@@ -98,10 +121,12 @@ namespace Minesweeper
             }
         }
 
+        // Difficulty Selection Buttons. Buttons are removed form the window when a diffulty is selected
+
         private void EasyButton(object sender, EventArgs e)
         {
             Controls.Clear();
-            Initiate(9, 9, 10);
+            StartGame(Constants.WidthEasy, Constants.HeightEasy, Constants.BombsCountEasy);
             Button buttonToRemove = (Button)sender;
             Controls.Remove(buttonToRemove);
         }
@@ -109,7 +134,7 @@ namespace Minesweeper
         private void MediumButton(object sender, EventArgs e)
         {
             Controls.Clear();
-            Initiate(16, 16, 40);
+            StartGame(Constants.WidthMedium, Constants.HeightMedium, Constants.BombsCountMedium);
             Button buttonToRemove = (Button)sender;
             Controls.Remove(buttonToRemove);
         }
@@ -117,11 +142,12 @@ namespace Minesweeper
         private void HardButton(object sender, EventArgs e)
         {
             Controls.Clear();
-            Initiate(25, 25, 80);
+            StartGame(Constants.WidthHard, Constants.HeightHard, Constants.BombsCountHard);
             Button buttonToRemove = (Button)sender;
             Controls.Remove(buttonToRemove);
         }
 
+        // Windows application essentials functions
         private void FormLoad(object sender, EventArgs e) {}
         private void TextBoxTextChanged(object sender, EventArgs e) {}
     }
