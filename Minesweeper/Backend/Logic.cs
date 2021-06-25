@@ -17,9 +17,9 @@ namespace Minesweeper
 
         // Private 
 
-        private void InsertUserInput(UserInput userInput)
+        private void InsertUserCommand(UserCommand UserCommand)
         {
-            grid.UserTileInteract(userInput);
+            grid.UserTileInteract(UserCommand);
         }
 
         private void CheckWinCondition()
@@ -38,11 +38,11 @@ namespace Minesweeper
 
         // Public 
 
-        public void Update(UserInput userInput)
+        public void Update(UserCommand UserCommand)
         {
             if (!endGame)
             {  
-                InsertUserInput(userInput);
+                InsertUserCommand(UserCommand);
 
                 // Check if all tiles have been swept
                 CheckWinCondition();

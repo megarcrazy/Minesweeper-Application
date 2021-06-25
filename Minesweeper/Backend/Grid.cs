@@ -119,11 +119,11 @@ namespace Minesweeper
         // Public
 
         // DFS sweep tiles
-        public void UserTileInteract(UserInput userInput)
+        public void UserTileInteract(UserCommand UserCommand)
         {
-            int x = userInput.x;
-            int y = userInput.y;
-            int command = userInput.command;
+            int x = UserCommand.x;
+            int y = UserCommand.y;
+            int command = UserCommand.command;
             Tile tile = tileArray[x][y];
 
             if (!addedBombs)

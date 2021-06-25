@@ -7,9 +7,9 @@ namespace Minesweeper
     {
         public Logic logic;
 
-        public BackEnd(int x, int y, int bombsCount)
+        public void SetBackEnd(int x, int y, int bombsCount)
         {
-           logic = new Logic(x, y, bombsCount);
+            logic = new Logic(x, y, bombsCount);
         }
         
         // Returns status of game: In progress, win or lose

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Minesweeper
 {
-    public class UserInput
+    public class UserCommand
     {
         public int x, y, command;
-        public UserInput(int x, int y, int command)
+        public UserCommand(int x, int y, int command)
         {
             this.x = x;
             this.y = y;

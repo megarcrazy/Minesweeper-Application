@@ -13,6 +13,10 @@ namespace Minesweeper
         public const int CommandSweepTile = 0;
         public const int CommandFlagTile = 1;
 
+        public const int Easy = 0;
+        public const int Medium = 1;
+        public const int Hard = 2;
+
         public const int WidthEasy = 9;
         public const int HeightEasy = 9;
         public const int BombsCountEasy = 10;
