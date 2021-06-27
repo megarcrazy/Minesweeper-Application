@@ -8,7 +8,8 @@ namespace Minesweeper
     {
         Random rand = new Random();
         public int width, height;
-        private int bombsCount, tilesLeft;
+        private readonly int bombsCount;
+        private int tilesLeft;
         private Tile[][] tileArray;
         private bool hitBomb = false;
         private bool addedBombs = false;
@@ -22,7 +23,7 @@ namespace Minesweeper
             AddTiles();
         }
 
-        //Makes an array of tiles
+        // Makes an array of tiles
         private void AddTiles()
         {
             tileArray = new Tile[width][];

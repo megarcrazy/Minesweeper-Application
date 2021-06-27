@@ -8,10 +8,8 @@ namespace Minesweeper
 {
     public static class Constants
     {
-        public const int ScreenWidth = 500;
-        public const int ScreenHeight = 500;
-        public const int CommandSweepTile = 0;
-        public const int CommandFlagTile = 1;
+        public const int ScreenWidth = 512;
+        public const int ScreenHeight = 512;
 
         public const int Easy = 0;
         public const int Medium = 1;
@@ -26,11 +24,11 @@ namespace Minesweeper
         public const int WidthHard = 25;
         public const int HeightHard = 25;
         public const int BombsCountHard = 80;
-
-        public const int ButtonBorderThickness = 2;
-
+        public const int CommandSweepTile = 0;
+        public const int CommandFlagTile = 1;
         public const int InProgress = 0;
         public const int Win = 1;
         public const int Lose = 2;
+        public const int ButtonBorderThickness = 2;
     }
 }

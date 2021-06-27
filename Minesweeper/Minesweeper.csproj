@@ -46,15 +46,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Backend\AdjacentIndexList.cs" />
-    <Compile Include="Backend\BackEnd.cs" />
-    <Compile Include="Backend\Grid.cs" />
-    <Compile Include="Backend\Logic.cs" />
-    <Compile Include="Backend\PrintGame.cs" />
-    <Compile Include="Backend\Tile.cs" />
-    <Compile Include="Frontend\UserCommand.cs" />
+    <Compile Include="BackEnd\AdjacentIndexList.cs" />
+    <Compile Include="BackEnd\BackEnd.cs" />
+    <Compile Include="BackEnd\Grid.cs" />
+    <Compile Include="BackEnd\Logic.cs" />
+    <Compile Include="BackEnd\PrintGame.cs" />
+    <Compile Include="BackEnd\Tile.cs" />
+    <Compile Include="FrontEnd\CustomTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FrontEnd\DifficultyButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FrontEnd\FrontEnd.cs" />
+    <Compile Include="FrontEnd\Scene\GameScene.cs" />
+    <Compile Include="FrontEnd\Scene\MainMenuScene.cs" />
+    <Compile Include="FrontEnd\Scene\Scene.cs" />
+    <Compile Include="FrontEnd\UserCommand.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Frontend\WindowsTile.cs">
+    <Compile Include="FrontEnd\WindowsGrid.cs" />
+    <Compile Include="FrontEnd\WindowsTile.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Forms\WindowsApplication.cs">

@@ -8,6 +8,7 @@ namespace Minesweeper
 {
     public class UserCommand
     {
+        // Struct like class to store the tile location clicked and what command used
         public int x, y, command;
         public UserCommand(int x, int y, int command)
         {
