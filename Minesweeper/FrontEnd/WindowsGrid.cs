@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Minesweeper
 {
@@ -8,8 +7,7 @@ namespace Minesweeper
         private FrontEnd frontEnd;
         private BackEnd backEnd;
 
-        private WindowsTile[][] windowsTileArray;
-        
+        private WindowsTile[,] windowsTileArray;
 
         public WindowsGrid(FrontEnd frontEnd, BackEnd backEnd)
         {
@@ -20,78 +18,35 @@ namespace Minesweeper
 
         private void AddGrids()
         {
-            windowsTileArray = new WindowsTile[backEnd.width][];
-            WindowsTile windowstile;
+            windowsTileArray = new WindowsTile[backEnd.width, backEnd.height];
             for (int i = 0; i < backEnd.width; i++)
-            {
-                windowsTileArray[i] = new WindowsTile[backEnd.height];
                 for (int j = 0; j < backEnd.height; j++)
                 {
-                    windowstile = new WindowsTile(backEnd, i, j);
-                    windowsTileArray[i][j] = windowstile;
-                    windowstile.MouseUp += TileClickHandler;
-                    frontEnd.windowsApplication.Controls.Add(windowstile);
+                    windowsTileArray[i, j] = new WindowsTile(frontEnd, backEnd, i, j);
+                    frontEnd.windowsApplication.Controls.Add(windowsTileArray[i, j]);
                 }
-            }
         }
 
-        private void TileClickHandler(object sender, MouseEventArgs e)
-        {
-            WindowsTile ClickedButton = (WindowsTile)sender;
-            int x = ClickedButton.GetX();
-            int y = ClickedButton.GetY();
-
-            // Left click to sweep tile. Right click to flag tile
-            if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
-            {
-                int command;
-                switch (e.Button)
-                {
-                    case MouseButtons.Left:
-                        command = Constants.CommandSweepTile;
-                        break;
-                    case MouseButtons.Right:
-                        command = Constants.CommandFlagTile;
-                        break;
-                    default:
-                        command = -1;
-                        break;
-                }
-   
-                UpdateBackEnd(new UserCommand(x, y, command));
-                UpdateVisual();
-            }
-            
-        }
-
-        private void UpdateBackEnd(UserCommand UserCommand)
-        {
-            backEnd.logic.Update(UserCommand);
-        }
-
-        private void UpdateVisual()
+        public void UpdateVisual()
         {
             UpdateBoard();
             CheckGameEnd();
         }
 
+        // Go through each tile in double array and update
         private void UpdateBoard()
         {
-            Tile[][] tileArray = backEnd.logic.GetTileArray();
-            for (int m = 0; m < tileArray.Length; m++)
+            foreach (WindowsTile windowsTile in windowsTileArray)
             {
-                for (int n = 0; n < tileArray[0].Length; n++)
-                {
-                    windowsTileArray[m][n].UpdateTile();
-                }
+                windowsTile.UpdateTile();
             }
         }
 
-        // Adds pop up if game has won or lost
+        // Adds pop up if game has won or lost and returns back to the menu
         private void CheckGameEnd()
         {
             int gameStatus = backEnd.GetStatus();
-            if (gameStatus == Constants.Win || gameStatus == Constants.Lose)
+            if (gameStatus != Constants.InProgress)
             {
                 string returnToMenuMessage = "Press 'OK' to return back to the menu";
                 string message = "";

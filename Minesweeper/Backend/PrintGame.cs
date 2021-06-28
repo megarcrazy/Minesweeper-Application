@@ -32,7 +32,7 @@ namespace Minesweeper
                 Console.Write($"{j}| "); // Print column
                 for (int i = 0; i < grid.width; i++)
                 {
-                    yield return grid.GetTileArray()[i][j];
+                    yield return grid.GetTileArray()[i, j];
                     Console.Write(' ');
                 }
                 Console.Write('\n');

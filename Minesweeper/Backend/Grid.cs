@@ -10,7 +10,7 @@ namespace Minesweeper
         public int width, height;
         private readonly int bombsCount;
         private int tilesLeft;
-        private Tile[][] tileArray;
+        private Tile[,] tileArray;
         private bool hitBomb = false;
         private bool addedBombs = false;
 
@@ -26,16 +26,12 @@ namespace Minesweeper
         // Makes an array of tiles
         private void AddTiles()
         {
-            tileArray = new Tile[width][];
+            tileArray = new Tile[width, height];
             for (int i = 0; i < width; i++)
-            {
-                tileArray[i] = new Tile[height];
                 for (int j = 0; j < height; j++)
-                    tileArray[i][j] = new Tile(i, j);
-            }
+                    tileArray[i, j] = new Tile(i, j);
+            
         }
-
-        // Private
 
         private void AddBombs(Tile selectedTile)
         {
@@ -43,18 +39,22 @@ namespace Minesweeper
             while (i < bombsCount)
             {
                 if (InsertRandomBomb(selectedTile))
+                {
                     i++;
+                }
             }
+                
         }
 
-        // Generattes random numbers and inserts a bomb at that location.
+        // Generates random numbers and inserts a bomb at that location.
+        // Returns true if successful
         private bool InsertRandomBomb(Tile selectedTile)
         {
             int x = rand.Next(width);
             int y = rand.Next(height);
             // Inserts successfully when tile has no bomb already and is not adjacent
             // to and in the starting tile and returns true if successful else false
-            Tile newBombTile = tileArray[x][y];
+            Tile newBombTile = tileArray[x, y];
             // Boolean to see if the new bomb tile is adjacent to the selected tile
             bool adjacentToSelectedTile = GetAdjacentTiles(selectedTile).ToList().Contains(newBombTile);
             if (!newBombTile.IsBomb() && selectedTile != newBombTile && !adjacentToSelectedTile)
@@ -75,23 +75,23 @@ namespace Minesweeper
         // Iterator returns adjacent tiles surrounding the given tile coordinates
         private IEnumerable<Tile> GetAdjacentTiles(Tile tile)
         {
-            int i = tile.GetX();
-            int j = tile.GetY();
-            int x, y;
-            foreach (int[] adjacentIndex in AdjacentIndexList.Get())
+            int x = tile.GetX();
+            int y = tile.GetY();
+            // Iterate through adjacent tiles
+            int[,] adjacentTilesIndices = GetAdjacentTilesIndices();
+            int i, j;
+            for (int m = 0; m < adjacentTilesIndices.GetLength(0); m++)
             {
-                x = adjacentIndex[0];
-                y = adjacentIndex[1];
+                i = adjacentTilesIndices[m, 0];
+                j = adjacentTilesIndices[m, 1];
                 if (i + x >= 0 && i + x < width && j + y >= 0 && j + y < height)
-                {
-                    yield return tileArray[i + x][j + y];
-                }
+                    yield return tileArray[x + i, y + j];
             }
         }
 
         private void SweepTile(Tile tile)
         {
-            // Cannot Sweep if tile is flagged
+            // Function will not called if tile is flagged
             if (tile.IsBomb())
             {
                 tile.Reveal();
@@ -112,21 +112,20 @@ namespace Minesweeper
                 foreach (Tile adjacentTile in GetAdjacentTiles(tile))
                 {
                     if (!adjacentTile.IsRevealed())
+                    {
                         SweepAlgorithm(adjacentTile);
-                }
+                    } 
+                }    
             }
+                
         }
 
-        // Public
-
         // DFS sweep tiles
-        public void UserTileInteract(UserCommand UserCommand)
+        public void UserTileInteract(int x, int y, int command)
         {
-            int x = UserCommand.x;
-            int y = UserCommand.y;
-            int command = UserCommand.command;
-            Tile tile = tileArray[x][y];
+            Tile tile = tileArray[x, y];
 
+            // Add bombs after the first tile has been clicked to prevent clicking on bomb instantly
             if (!addedBombs)
             {
                 AddBombs(tile);
@@ -149,8 +148,21 @@ namespace Minesweeper
             }
         }
 
+        // Get adjacent tile list
+        private static int[,] GetAdjacentTilesIndices()
+        {
+            // 5 1 4
+            // 2 _ 0
+            // 6 3 7
+            return new int[,]
+            {
+                {1, 0}, {0, 1}, {-1, 0}, {0, -1},
+                {1, 1}, {-1, 1}, {-1, -1}, {1, -1}
+            };
+        }
+
         // Get methods
-        public Tile[][] GetTileArray() { return tileArray; }
+        public Tile[,] GetTileArray() { return tileArray; }
         public int GetTilesLeft() { return tilesLeft; }
         public int GetBombsCount() { return bombsCount; }
         public bool GetHitBomb() { return hitBomb; }  

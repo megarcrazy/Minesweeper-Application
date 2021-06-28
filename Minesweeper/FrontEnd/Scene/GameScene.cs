@@ -15,5 +15,10 @@
             backEnd = new BackEnd(difficulty);
             windowsGrid = new WindowsGrid(frontEnd, backEnd);
         }
+
+        public override void UpdateVisual()
+        {
+            windowsGrid.UpdateVisual();
+        }
     }
 }

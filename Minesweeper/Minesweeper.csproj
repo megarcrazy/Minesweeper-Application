@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackEnd\AdjacentIndexList.cs" />
     <Compile Include="BackEnd\BackEnd.cs" />
     <Compile Include="BackEnd\Grid.cs" />
     <Compile Include="BackEnd\Logic.cs" />

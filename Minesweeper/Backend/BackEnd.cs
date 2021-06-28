@@ -8,10 +8,10 @@ namespace Minesweeper
         public Logic logic;
         public readonly int width;
         public readonly int height;
-        public readonly int bombsCount;
 
         public BackEnd(int difficulty)
         {
+            int bombsCount = 0;
             switch (difficulty)
             {
                 case Constants.Easy:
@@ -39,7 +39,7 @@ namespace Minesweeper
             return logic.GetStatus();
         }
 
-        public Tile[][] GetTileArray()
+        public Tile[,] GetTileArray()
         {
             return logic.GetTileArray();
         }

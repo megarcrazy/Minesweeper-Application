@@ -4,9 +4,7 @@ namespace Minesweeper
 {
     public class Logic
     {
-        private bool win = false;
-        private bool lose = false;
-        private bool endGame = false;
+        private int gameStatus = Constants.InProgress;
         private int round = 1;
         private Grid grid;
 
@@ -16,59 +14,35 @@ namespace Minesweeper
         }
 
         // Private 
-
-        private void InsertUserCommand(UserCommand UserCommand)
-        {
-            grid.UserTileInteract(UserCommand);
-        }
-
         private void CheckWinCondition()
         {
             if (grid.GetHitBomb())
-            {
-                endGame = true;
-                lose = true;
-            }
+                gameStatus = Constants.Lose;
             else if (grid.GetTilesLeft() == 0)
-            {
-                endGame = true;
-                win = true;
-            }
+                gameStatus = Constants.Win;
         }
 
         // Public 
 
-        public void Update(UserCommand UserCommand)
+        public void Update(int x, int y, int command)
         {
-            if (!endGame)
+            if (gameStatus == Constants.InProgress)
             {  
-                InsertUserCommand(UserCommand);
-
+                grid.UserTileInteract(x, y, command);
                 // Check if all tiles have been swept
                 CheckWinCondition();
                 round++;
-
-                Print(grid);
             }
-
-            // Debugging win/lose condition
-            if (win) { Console.WriteLine("You win"); }
-            else if (lose) { Console.WriteLine("You lose"); }
         }
 
         public int GetStatus()
         {
-            if (win)
-                return Constants.Win;
-            else if (lose)
-                return Constants.Lose;
-            return Constants.InProgress;
+            return gameStatus;
         }
 
-        public Tile[][] GetTileArray() {
+        public Tile[,] GetTileArray() {
             return grid.GetTileArray();
         }
-
 
         // Debugging functions
 

@@ -27,6 +27,11 @@ namespace Minesweeper
             currentScene = new MainMenuScene(this);
         }
 
+        public void UpdateVisual()
+        {
+            currentScene.UpdateVisual();
+        }
+
         private void FormKeyDown(object sender, KeyEventArgs e)
         {
             // Restarts program if "r" is pressed on the keyboard

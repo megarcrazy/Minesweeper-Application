@@ -5,11 +5,13 @@ namespace Minesweeper
 {
     public class WindowsTile : Button
     {
-        BackEnd backEnd;
-        private readonly int x, y;
+        private FrontEnd frontEnd;
+        private BackEnd backEnd;
+        public readonly int x, y;
 
-        public WindowsTile(BackEnd backEnd, int x, int y)
+        public WindowsTile(FrontEnd frontEnd, BackEnd backEnd, int x, int y)
         {
+            this.frontEnd = frontEnd;
             this.backEnd = backEnd;
             this.x = x;
             this.y = y;
@@ -22,6 +24,7 @@ namespace Minesweeper
             int visualTileHeight = Constants.ScreenHeight / backEnd.height;
             SetTileDimensions(visualTileWidth, visualTileHeight);
             SetLocation(visualTileWidth, visualTileHeight);
+            MouseUp += TileClickHandler;
         }
 
         private void SetTileDimensions(int visualTileWidth, int visualTileHeight)
@@ -38,13 +41,27 @@ namespace Minesweeper
             Location = new Point(x * visualTileWidth + offsetX, y * visualTileHeight + offSetY);
         }
 
-        public int GetX() { return x; }
-        public int GetY() { return y; }
+        private void TileClickHandler(object sender, MouseEventArgs e)
+        {
+            // Left click to sweep tile. Right click to flag tile
+            int command = 0;
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    command = Constants.CommandSweepTile;
+                    break;
+                case MouseButtons.Right:
+                    command = Constants.CommandFlagTile;
+                    break;
+            }
+            backEnd.logic.Update(x, y, command);
+            frontEnd.UpdateVisual();
+        }
 
         // If tile is revealed, show user what is in the tile and tell user which tiles are flagged
         public void UpdateTile()
         {
-            Tile tile = backEnd.logic.GetTileArray()[x][y];
+            Tile tile = backEnd.logic.GetTileArray()[x, y];
             ChangeText("");
             if (tile.IsRevealed())
             {
@@ -68,6 +85,7 @@ namespace Minesweeper
         public void ChangeText(string text)
         {
             Text = text;
+            // Add colouring to the numbers
             switch (text)
             {
                 case "1":
