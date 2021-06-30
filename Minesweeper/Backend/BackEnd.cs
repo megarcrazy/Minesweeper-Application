@@ -1,47 +1,55 @@
-﻿using System;
-
-namespace Minesweeper
+﻿namespace Minesweeper
 {
     // Controls the backend logic of the Minesweeper program
     public class BackEnd
     {
         public Logic logic;
-        public readonly int width;
-        public readonly int height;
+        private readonly int width;
+        private readonly int height;
 
         public BackEnd(int difficulty)
         {
             int bombsCount = 0;
             switch (difficulty)
             {
-                case Constants.Easy:
-                    width = Constants.WidthEasy;
-                    height = Constants.HeightEasy;
-                    bombsCount = Constants.BombsCountEasy;
+                case 0:
+                    width = Settings.WidthEasy;
+                    height = Settings.HeightEasy;
+                    bombsCount = Settings.BombsCountEasy;
                     break;
-                case Constants.Medium:
-                    width = Constants.WidthMedium;
-                    height = Constants.HeightMedium;
-                    bombsCount = Constants.BombsCountMedium;
+                case 1:
+                    width = Settings.WidthMedium;
+                    height = Settings.HeightMedium;
+                    bombsCount = Settings.BombsCountMedium;
                     break;
-                case Constants.Hard:
-                    width = Constants.WidthHard;
-                    height = Constants.HeightHard;
-                    bombsCount = Constants.BombsCountHard;
+                case 2:
+                    width = Settings.WidthHard;
+                    height = Settings.HeightHard;
+                    bombsCount = Settings.BombsCountHard;
                     break;
             }
             logic = new Logic(width, height, bombsCount);
         }
         
-        // Returns status of game: In progress, win or lose
-        public int GetStatus()
+        // Checks if game is still in progress
+        public bool GetStatus()
         {
             return logic.GetStatus();
         }
 
-        public Tile[,] GetTileArray()
+        public bool GetGameResult()
         {
-            return logic.GetTileArray();
+            return logic.GetGameResult();
+        }
+
+        public int GetWidth()
+        {
+            return width;
+        }
+
+        public int GetHeight()
+        {
+            return height;
         }
     }
 }

@@ -121,7 +121,7 @@ namespace Minesweeper
         }
 
         // DFS sweep tiles
-        public void UserTileInteract(int x, int y, int command)
+        public void UserTileInteract(int x, int y, bool command)
         {
             Tile tile = tileArray[x, y];
 
@@ -135,13 +135,13 @@ namespace Minesweeper
             // Interacting with already revealed tile does nothing
             if (!tile.IsRevealed())
             {
-                if (command == Constants.CommandSweepTile)
+                if (command)
                 {
                     // Prevent sweeping tile if flagged
                     if (!tile.IsFlagged())
                         SweepTile(tile);
                 }
-                else if (command == Constants.CommandFlagTile)
+                else 
                 {
                     tile.Flag();
                 }

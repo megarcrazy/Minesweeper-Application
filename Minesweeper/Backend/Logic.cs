@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace Minesweeper
+﻿namespace Minesweeper
 {
     public class Logic
     {
-        private int gameStatus = Constants.InProgress;
-        private int round = 1;
-        private Grid grid;
+        private bool running = true;
+        private bool win;
+        private readonly Grid grid;
 
         public Logic(int width, int height, int bombsCount)
         {
@@ -14,41 +12,43 @@ namespace Minesweeper
         }
 
         // Private 
-        private void CheckWinCondition()
+        private void CheckWinLoseCondition()
         {
             if (grid.GetHitBomb())
-                gameStatus = Constants.Lose;
+            {
+                running = false;
+                win = true;
+            }
             else if (grid.GetTilesLeft() == 0)
-                gameStatus = Constants.Win;
+            {
+                running = false;
+                win = false;
+            }   
         }
 
         // Public 
 
-        public void Update(int x, int y, int command)
+        public void Update(int x, int y, bool command)
         {
-            if (gameStatus == Constants.InProgress)
+            if (running)
             {  
                 grid.UserTileInteract(x, y, command);
-                // Check if all tiles have been swept
-                CheckWinCondition();
-                round++;
+                CheckWinLoseCondition(); // Check if all tiles have been swept or bomb hit
             }
         }
 
-        public int GetStatus()
+        public bool GetStatus()
         {
-            return gameStatus;
+            return running;
+        }
+
+        public bool GetGameResult()
+        {
+            return win;
         }
 
         public Tile[,] GetTileArray() {
             return grid.GetTileArray();
-        }
-
-        // Debugging functions
-
-        private void Print(Grid grid)
-        {
-            PrintGame.PlayerView(grid);
         }
     }
 }

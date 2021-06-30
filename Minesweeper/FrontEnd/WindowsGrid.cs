@@ -4,8 +4,8 @@ namespace Minesweeper
 {
     class WindowsGrid
     {
-        private FrontEnd frontEnd;
-        private BackEnd backEnd;
+        private readonly FrontEnd frontEnd;
+        private readonly BackEnd backEnd;
 
         private WindowsTile[,] windowsTileArray;
 
@@ -18,9 +18,11 @@ namespace Minesweeper
 
         private void AddGrids()
         {
-            windowsTileArray = new WindowsTile[backEnd.width, backEnd.height];
-            for (int i = 0; i < backEnd.width; i++)
-                for (int j = 0; j < backEnd.height; j++)
+            int width = backEnd.GetWidth();
+            int height = backEnd.GetHeight();
+            windowsTileArray = new WindowsTile[width, height];
+            for (int i = 0; i < width; i++)
+                for (int j = 0; j < height; j++)
                 {
                     windowsTileArray[i, j] = new WindowsTile(frontEnd, backEnd, i, j);
                     frontEnd.windowsApplication.Controls.Add(windowsTileArray[i, j]);
@@ -45,19 +47,18 @@ namespace Minesweeper
         // Adds pop up if game has won or lost and returns back to the menu
         private void CheckGameEnd()
         {
-            int gameStatus = backEnd.GetStatus();
-            if (gameStatus != Constants.InProgress)
+            bool gameRunning = backEnd.GetStatus();
+            if (!gameRunning)
             {
                 string returnToMenuMessage = "Press 'OK' to return back to the menu";
-                string message = "";
-                switch (gameStatus)
+                string message;
+                if (backEnd.GetGameResult())
                 {
-                    case Constants.Win:
-                        message = "Wow! You Won! " + returnToMenuMessage;
-                        break;
-                    case Constants.Lose:
-                        message = "Boo! You Lost! " + returnToMenuMessage;
-                        break;
+                    message = "Wow! You Won! " + returnToMenuMessage;
+                }
+                else
+                {
+                    message = "Boo! You Lost! " + returnToMenuMessage;
                 }
                 MessageBox.Show(message);
                 frontEnd.BackToMenu();

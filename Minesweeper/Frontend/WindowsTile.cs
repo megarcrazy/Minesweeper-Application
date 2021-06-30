@@ -20,8 +20,8 @@ namespace Minesweeper
             TextAlign = ContentAlignment.MiddleCenter;
             BackColor = Color.LightGray;
 
-            int visualTileWidth = Constants.ScreenWidth / backEnd.width;
-            int visualTileHeight = Constants.ScreenHeight / backEnd.height;
+            int visualTileWidth = Settings.ScreenWidth / backEnd.GetWidth();
+            int visualTileHeight = Settings.ScreenHeight / backEnd.GetHeight();
             SetTileDimensions(visualTileWidth, visualTileHeight);
             SetLocation(visualTileWidth, visualTileHeight);
             MouseUp += TileClickHandler;
@@ -30,31 +30,31 @@ namespace Minesweeper
         private void SetTileDimensions(int visualTileWidth, int visualTileHeight)
         {
             Size = new Size(visualTileWidth, visualTileHeight);
-            Font = new Font(Font.FontFamily, visualTileWidth / 2 - Constants.ButtonBorderThickness);
+            int buttonBorderThickness = 2;
+            Font = new Font(Font.FontFamily, visualTileWidth / 2 - buttonBorderThickness);
         }
 
         private void SetLocation(int visualTileWidth, int visualTileHeight)
         {
             // Centres the grid towards the centre of the application if gap exists between tile and border
-            int offsetX = Constants.ScreenWidth % backEnd.width / 2;
-            int offSetY = Constants.ScreenHeight % backEnd.height / 2;
+            int offsetX = Settings.ScreenWidth % backEnd.GetWidth() / 2;
+            int offSetY = Settings.ScreenHeight % backEnd.GetHeight() / 2;
             Location = new Point(x * visualTileWidth + offsetX, y * visualTileHeight + offSetY);
         }
 
         private void TileClickHandler(object sender, MouseEventArgs e)
         {
             // Left click to sweep tile. Right click to flag tile
-            int command = 0;
+            // True for sweep and false for flag
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    command = Constants.CommandSweepTile;
+                    backEnd.logic.Update(x, y, true);
                     break;
                 case MouseButtons.Right:
-                    command = Constants.CommandFlagTile;
+                    backEnd.logic.Update(x, y, false);
                     break;
             }
-            backEnd.logic.Update(x, y, command);
             frontEnd.UpdateVisual();
         }
 

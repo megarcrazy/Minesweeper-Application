@@ -6,38 +6,33 @@ namespace Minesweeper
 {
     class DifficultyButton : Button
     {
-        public readonly FrontEnd frontEnd;
-        public readonly int difficulty;
 
         public DifficultyButton(FrontEnd frontEnd, int difficulty)
         {
-            this.frontEnd = frontEnd;
-            this.difficulty = difficulty;
-
             AutoSize = false;
             Size = new Size(100, 50);
             TabStop = false;
             TextAlign = ContentAlignment.MiddleCenter;
 
-            SetTextBox();
-            Click += new EventHandler(ClickHandler);
+            SetTextBox(difficulty);
+            Click += (sender, e) => frontEnd.StartGame(difficulty);
         }
 
-        private void SetTextBox()
+        private void SetTextBox(int difficulty)
         {
             switch (difficulty)
             {
-                case Constants.Easy:
+                case 0:
                     Text = "Easy";
-                    SetLocation(Constants.ScreenWidth / 4, Constants.ScreenHeight / 2);
+                    SetLocation(Settings.ScreenWidth / 4, Settings.ScreenHeight / 2);
                     break;
-                case Constants.Medium:
+                case 1:
                     Text = "Medium";
-                    SetLocation(Constants.ScreenWidth / 2, Constants.ScreenHeight / 2);
+                    SetLocation(Settings.ScreenWidth / 2, Settings.ScreenHeight / 2);
                     break;
-                case Constants.Hard:
+                case 2:
                     Text = "Hard";
-                    SetLocation(3 * Constants.ScreenWidth / 4, Constants.ScreenHeight / 2);
+                    SetLocation(3 * Settings.ScreenWidth / 4, Settings.ScreenHeight / 2);
                     break;
             }
         }
@@ -45,11 +40,6 @@ namespace Minesweeper
         private void SetLocation(int locationX, int locationY)
         {
             Location = new Point(locationX - Size.Width / 2, locationY - Size.Height / 2);
-        }
-
-        private void ClickHandler(object sender, EventArgs e)
-        {
-            frontEnd.StartGame(difficulty);
         }
     }
 }
