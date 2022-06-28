@@ -46,25 +46,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackEnd\BackEnd.cs" />
-    <Compile Include="BackEnd\Grid.cs" />
-    <Compile Include="BackEnd\Logic.cs" />
-    <Compile Include="BackEnd\PrintGame.cs" />
-    <Compile Include="BackEnd\Tile.cs" />
-    <Compile Include="FrontEnd\CustomTextBox.cs">
+    <Compile Include="Scripts\BackEnd.cs" />
+    <Compile Include="Scripts\Grid.cs" />
+    <Compile Include="Scripts\Logic.cs" />
+    <Compile Include="Scripts\PrintGame.cs" />
+    <Compile Include="Scripts\Tile.cs" />
+    <Compile Include="Content\CustomTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FrontEnd\DifficultyButton.cs">
+    <Compile Include="Content\DifficultyButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FrontEnd\FrontEnd.cs" />
-    <Compile Include="FrontEnd\Scene\GameScene.cs" />
-    <Compile Include="FrontEnd\Scene\MainMenuScene.cs" />
-    <Compile Include="FrontEnd\Scene\Scene.cs" />
-    <Compile Include="FrontEnd\UserCommand.cs" />
+    <Compile Include="Content\FrontEnd.cs" />
+    <Compile Include="Content\Scenes\GameScene.cs" />
+    <Compile Include="Content\Scenes\MainMenuScene.cs" />
+    <Compile Include="Content\Scenes\Scene.cs" />
+    <Compile Include="Content\UserCommand.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="FrontEnd\WindowsGrid.cs" />
-    <Compile Include="FrontEnd\WindowsTile.cs">
+    <Compile Include="Content\WindowsGrid.cs" />
+    <Compile Include="Content\WindowsTile.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Forms\WindowsApplication.cs">
