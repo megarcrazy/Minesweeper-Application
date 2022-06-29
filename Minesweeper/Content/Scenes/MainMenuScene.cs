@@ -1,12 +1,11 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace Minesweeper
 {
     class MainMenuScene : Scene
     {
-        public FrontEnd frontEnd;
-        
-        public MainMenuScene(FrontEnd frontEnd)
+        public MainMenuScene(FrontEnd frontEnd) : base(frontEnd)
         {
             this.frontEnd = frontEnd;
             InitialiseTextBoxes();
@@ -15,8 +14,8 @@ namespace Minesweeper
 
         private void InitialiseTextBoxes()
         {
-            Label instructionsText = new CustomTextBox("Choose a difficulty from below", Settings.ScreenWidth / 2, 100);
-            Label authorText = new CustomTextBox("Made by Vincent Tang", Settings.ScreenWidth / 2, 400);
+            Label instructionsText = new CustomTextBox("Choose a difficulty from below", Constants.ScreenWidth / 2, 100);
+            Label authorText = new CustomTextBox("Made by Vincent Tang", Constants.ScreenWidth / 2, 400);
 
             frontEnd.windowsApplication.Controls.Add(instructionsText);
             frontEnd.windowsApplication.Controls.Add(authorText);
@@ -24,10 +23,9 @@ namespace Minesweeper
 
         private void InitialiseButtons()
         {
-            // Easy: 0, Medium: 1, Hard: 2
-            DifficultyButton easyButton = new DifficultyButton(frontEnd, 0);
-            DifficultyButton mediumButton = new DifficultyButton(frontEnd, 1);
-            DifficultyButton hardButton = new DifficultyButton(frontEnd, 2);
+            DifficultyButton easyButton = new DifficultyButton(frontEnd, Constants.Easy);
+            DifficultyButton mediumButton = new DifficultyButton(frontEnd, Constants.Medium);
+            DifficultyButton hardButton = new DifficultyButton(frontEnd, Constants.Hard);
 
             frontEnd.windowsApplication.Controls.Add(easyButton);
             frontEnd.windowsApplication.Controls.Add(mediumButton);

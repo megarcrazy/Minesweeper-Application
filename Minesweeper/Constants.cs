@@ -1,7 +1,11 @@
 ﻿namespace Minesweeper
 {
-    public static class Settings
+    public static class Constants
     {
+        public const int Easy = 0;
+        public const int Medium = 1;
+        public const int Hard = 2;
+
         public const int ScreenWidth = 512;
         public const int ScreenHeight = 512;
 

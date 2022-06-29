@@ -13,19 +13,19 @@
             switch (difficulty)
             {
                 case 0:
-                    width = Settings.WidthEasy;
-                    height = Settings.HeightEasy;
-                    bombsCount = Settings.BombsCountEasy;
+                    width = Constants.WidthEasy;
+                    height = Constants.HeightEasy;
+                    bombsCount = Constants.BombsCountEasy;
                     break;
                 case 1:
-                    width = Settings.WidthMedium;
-                    height = Settings.HeightMedium;
-                    bombsCount = Settings.BombsCountMedium;
+                    width = Constants.WidthMedium;
+                    height = Constants.HeightMedium;
+                    bombsCount = Constants.BombsCountMedium;
                     break;
                 case 2:
-                    width = Settings.WidthHard;
-                    height = Settings.HeightHard;
-                    bombsCount = Settings.BombsCountHard;
+                    width = Constants.WidthHard;
+                    height = Constants.HeightHard;
+                    bombsCount = Constants.BombsCountHard;
                     break;
             }
             logic = new Logic(width, height, bombsCount);

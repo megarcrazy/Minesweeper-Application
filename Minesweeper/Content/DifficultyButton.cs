@@ -24,15 +24,15 @@ namespace Minesweeper
             {
                 case 0:
                     Text = "Easy";
-                    SetLocation(Settings.ScreenWidth / 4, Settings.ScreenHeight / 2);
+                    SetLocation(Constants.ScreenWidth / 4, Constants.ScreenHeight / 2);
                     break;
                 case 1:
                     Text = "Medium";
-                    SetLocation(Settings.ScreenWidth / 2, Settings.ScreenHeight / 2);
+                    SetLocation(Constants.ScreenWidth / 2, Constants.ScreenHeight / 2);
                     break;
                 case 2:
                     Text = "Hard";
-                    SetLocation(3 * Settings.ScreenWidth / 4, Settings.ScreenHeight / 2);
+                    SetLocation(3 * Constants.ScreenWidth / 4, Constants.ScreenHeight / 2);
                     break;
             }
         }
