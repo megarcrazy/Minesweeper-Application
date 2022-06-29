@@ -17,12 +17,12 @@
             if (grid.GetHitBomb())
             {
                 running = false;
-                win = true;
+                win = false;
             }
             else if (grid.GetTilesLeft() == 0)
             {
                 running = false;
-                win = false;
+                win = true;
             }   
         }
 
