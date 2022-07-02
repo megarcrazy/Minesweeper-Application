@@ -5,9 +5,11 @@
         private bool running = true;
         private bool win;
         private readonly Grid grid;
+        private int bombsCount = 0;
 
         public Logic(int width, int height, int bombsCount)
         {
+            this.bombsCount = bombsCount;
             grid = new Grid(width, height, bombsCount);
         }
 
@@ -26,8 +28,7 @@
             }   
         }
 
-        // Public 
-
+        // Left click: sweep, Right click: Flag
         public void Update(int x, int y, bool command)
         {
             if (running)
@@ -37,18 +38,10 @@
             }
         }
 
-        public bool GetStatus()
-        {
-            return running;
-        }
-
-        public bool GetGameResult()
-        {
-            return win;
-        }
-
-        public Tile[,] GetTileArray() {
-            return grid.GetTileArray();
-        }
+        public bool GetStatus() { return running; }
+        public bool GetGameResult() { return win; }
+        public Tile[,] GetTileArray() { return grid.GetTileArray(); }
+        public int GetTotalFlagged() { return grid.GetTotalFlagged(); }
+        public int GetBombsCount() { return bombsCount; }
     }
 }

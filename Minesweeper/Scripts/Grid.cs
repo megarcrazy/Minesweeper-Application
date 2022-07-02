@@ -13,6 +13,7 @@ namespace Minesweeper
         private Tile[,] tileArray;
         private bool hitBomb = false;
         private bool addedBombs = false;
+        private int totalFlagged = 0;
 
         public Grid(int width, int height, int bombsCount)
         {
@@ -111,7 +112,8 @@ namespace Minesweeper
             {
                 foreach (Tile adjacentTile in GetAdjacentTiles(tile))
                 {
-                    if (!adjacentTile.IsRevealed())
+                    // Does not sweep if tile is already revealled or is flagged
+                    if (!adjacentTile.IsRevealed() && !adjacentTile.IsFlagged())
                     {
                         SweepAlgorithm(adjacentTile);
                     } 
@@ -143,8 +145,21 @@ namespace Minesweeper
                 }
                 else 
                 {
-                    tile.Flag();
+                    bool flagged = tile.Flag();
+                    UpdateTotalFlagged(flagged);
                 }
+            }
+        }
+
+        private void UpdateTotalFlagged(bool flag)
+        {
+            if (flag)
+            {
+                totalFlagged++;
+            }
+            else
+            {
+                totalFlagged--;
             }
         }
 
@@ -166,5 +181,6 @@ namespace Minesweeper
         public int GetTilesLeft() { return tilesLeft; }
         public int GetBombsCount() { return bombsCount; }
         public bool GetHitBomb() { return hitBomb; }  
+        public int GetTotalFlagged() { return totalFlagged; }
     }
 }

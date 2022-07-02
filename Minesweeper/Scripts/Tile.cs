@@ -28,6 +28,11 @@
         public void AddBomb() { bomb = true; }
         public void Reveal() { revealed = true; }
         public void IncreaseAdjacentBombsCount() { adjacentBombsCount++; }
-        public void Flag() { flagged = !flagged; }
+        public bool Flag() {
+            flagged = !flagged;
+
+            // Returns true for flagging and false for unflagging
+            return flagged;
+        }
     }
 }

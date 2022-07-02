@@ -7,14 +7,16 @@ namespace Minesweeper
     {
         private FrontEnd frontEnd;
         private BackEnd backEnd;
-        public readonly int x, y;
+        public readonly int x, y, gridOffSetX, gridOffSetY;
 
-        public WindowsTile(FrontEnd frontEnd, BackEnd backEnd, int x, int y)
+        public WindowsTile(FrontEnd frontEnd, BackEnd backEnd, int x, int y, int gridOffSetX, int gridOffSetY)
         {
             this.frontEnd = frontEnd;
             this.backEnd = backEnd;
             this.x = x;
             this.y = y;
+            this.gridOffSetX = gridOffSetX;
+            this.gridOffSetY = gridOffSetY;
 
             SetStyle(ControlStyles.Selectable, false);
             TextAlign = ContentAlignment.MiddleCenter;
@@ -39,8 +41,7 @@ namespace Minesweeper
             // Centres the grid towards the centre of the application if gap exists between tile and border
             int offsetX = Constants.ScreenWidth % backEnd.GetWidth() / 2;
             int offSetY = Constants.ScreenHeight % backEnd.GetHeight() / 2;
-            int gridOffSetY = 25;
-            Location = new Point(x * visualTileWidth + offsetX, y * visualTileHeight + offSetY + gridOffSetY);
+            Location = new Point(x * visualTileWidth + offsetX + gridOffSetX, y * visualTileHeight + offSetY + gridOffSetY);
         }
 
         private void TileClickHandler(object sender, MouseEventArgs e)
@@ -106,6 +107,5 @@ namespace Minesweeper
                     break;
             }
         }
-
     }
 }

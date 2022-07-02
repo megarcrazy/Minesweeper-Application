@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Content\BombCountTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Content\TimerTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Scripts\BackEnd.cs" />
     <Compile Include="Scripts\Grid.cs" />
     <Compile Include="Scripts\Logic.cs" />

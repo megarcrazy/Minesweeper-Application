@@ -32,24 +32,9 @@
         }
         
         // Checks if game is still in progress
-        public bool GetStatus()
-        {
-            return logic.GetStatus();
-        }
-
-        public bool GetGameResult()
-        {
-            return logic.GetGameResult();
-        }
-
-        public int GetWidth()
-        {
-            return width;
-        }
-
-        public int GetHeight()
-        {
-            return height;
-        }
+        public bool GetStatus() { return logic.GetStatus(); }
+        public bool GetGameResult() { return logic.GetGameResult(); }
+        public int GetWidth() { return width; }
+        public int GetHeight() { return height; }
     }
 }

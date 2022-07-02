@@ -6,6 +6,9 @@ namespace Minesweeper
     {
         private readonly FrontEnd frontEnd;
         private readonly BackEnd backEnd;
+        private readonly int gridOffSetX = 0;
+        private readonly int gridOffSetY = 50;
+
 
         private WindowsTile[,] windowsTileArray;
 
@@ -24,7 +27,7 @@ namespace Minesweeper
             for (int i = 0; i < width; i++)
                 for (int j = 0; j < height; j++)
                 {
-                    windowsTileArray[i, j] = new WindowsTile(frontEnd, backEnd, i, j);
+                    windowsTileArray[i, j] = new WindowsTile(frontEnd, backEnd, i, j, gridOffSetX, gridOffSetY);
                     frontEnd.windowsApplication.Controls.Add(windowsTileArray[i, j]);
                 }
         }
