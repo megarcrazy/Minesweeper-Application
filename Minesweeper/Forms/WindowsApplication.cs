@@ -10,8 +10,12 @@ namespace Minesweeper
 
         public WindowsApplication() {
             InitializeComponent();
-            ClientSize = new Size(Constants.ScreenWidth, Constants.ScreenHeight + 50); // Set window size
             frontEnd = new FrontEnd(this); // Set scene manager
+        }
+
+        public void SetWindowSize(int screenWidth, int screenHeight)
+        {
+            ClientSize = new Size(screenWidth, screenHeight);
         }
 
         // Windows application essentials functions

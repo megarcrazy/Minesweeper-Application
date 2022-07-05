@@ -22,26 +22,21 @@ namespace Minesweeper
             TextAlign = ContentAlignment.MiddleCenter;
             BackColor = Color.LightGray;
 
-            int visualTileWidth = Constants.ScreenWidth / backEnd.GetWidth();
-            int visualTileHeight = Constants.ScreenHeight / backEnd.GetHeight();
-            SetTileDimensions(visualTileWidth, visualTileHeight);
-            SetLocation(visualTileWidth, visualTileHeight);
+            SetTileDimensions();
+            SetLocation();
             MouseUp += TileClickHandler;
         }
 
-        private void SetTileDimensions(int visualTileWidth, int visualTileHeight)
+        private void SetTileDimensions()
         {
-            Size = new Size(visualTileWidth, visualTileHeight);
+            Size = new Size(Constants.TileSize, Constants.TileSize);
             int buttonBorderThickness = 2;
-            Font = new Font(Font.FontFamily, visualTileWidth / 2 - buttonBorderThickness);
+            Font = new Font(Font.FontFamily, Constants.TileSize / 2 - buttonBorderThickness);
         }
 
-        private void SetLocation(int visualTileWidth, int visualTileHeight)
+        private void SetLocation()
         {
-            // Centres the grid towards the centre of the application if gap exists between tile and border
-            int offsetX = Constants.ScreenWidth % backEnd.GetWidth() / 2;
-            int offSetY = Constants.ScreenHeight % backEnd.GetHeight() / 2;
-            Location = new Point(x * visualTileWidth + offsetX + gridOffSetX, y * visualTileHeight + offSetY + gridOffSetY);
+            Location = new Point(x * Constants.TileSize + gridOffSetX, y * Constants.TileSize + gridOffSetY);
         }
 
         private void TileClickHandler(object sender, MouseEventArgs e)

@@ -3,23 +3,46 @@
     class GameScene : Scene
     {
         public readonly int difficulty;
+        public int screenWidth, screenHeight;
 
         private WindowsGrid windowsGrid;
         private BombCountTextBox bombCountTextBox;
         private TimerTextBox timerTextBox;
-        private readonly BackEnd backEnd;
+        private BackEnd backEnd;
+        
 
         public GameScene(FrontEnd frontEnd, int difficulty) : base(frontEnd)
         {
             this.difficulty = difficulty;
             this.frontEnd = frontEnd;
 
-            BombCountTextBox bombCountTextBox = new BombCountTextBox("Bomb Count", Constants.ScreenWidth / 4, 35);
-            TimerTextBox timerTextBox = new TimerTextBox("Timer", 3 * Constants.ScreenWidth / 4, 35);
+            SetWindowSize();
             InitialiseTextBoxes();
 
             backEnd = new BackEnd(difficulty);
             windowsGrid = new WindowsGrid(frontEnd, backEnd);
+        }
+
+        private void SetWindowSize()
+        {
+            screenWidth = 0;
+            screenHeight = Constants.ToolBarHeight + Constants.ToolBarSeparationHeight;
+            switch (difficulty)
+            {
+                case 0:
+                    screenWidth += Constants.TileSize * Constants.WidthEasy;
+                    screenHeight += Constants.TileSize * Constants.HeightEasy;
+                    break;
+                case 1:
+                    screenWidth = Constants.TileSize * Constants.WidthMedium;
+                    screenHeight += Constants.TileSize * Constants.HeightMedium;
+                    break;
+                case 2:
+                    screenWidth = Constants.TileSize * Constants.WidthHard;
+                    screenHeight += Constants.TileSize * Constants.HeightHard;
+                    break;
+            }
+            frontEnd.windowsApplication.SetWindowSize(screenWidth, screenHeight);
         }
 
         public override void UpdateVisual()
@@ -31,9 +54,9 @@
 
         private void InitialiseTextBoxes()
         {
-            bombCountTextBox = new BombCountTextBox("Click anywhere to start", Constants.ScreenWidth / 4, 35);
-            timerTextBox = new TimerTextBox("Timer", 3 * Constants.ScreenWidth / 4, 35);
-
+            int textBoxHeight = Constants.ToolBarHeight + Constants.ToolBarSeparationHeight / 2;
+            bombCountTextBox = new BombCountTextBox("Bomb Count", screenWidth / 4, textBoxHeight);
+            timerTextBox = new TimerTextBox("Timer", 3 * screenWidth / 4, textBoxHeight);
             frontEnd.windowsApplication.Controls.Add(bombCountTextBox);
             frontEnd.windowsApplication.Controls.Add(timerTextBox);
         }

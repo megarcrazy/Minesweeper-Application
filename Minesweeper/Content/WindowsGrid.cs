@@ -7,7 +7,7 @@ namespace Minesweeper
         private readonly FrontEnd frontEnd;
         private readonly BackEnd backEnd;
         private readonly int gridOffSetX = 0;
-        private readonly int gridOffSetY = 50;
+        private readonly int gridOffSetY = Constants.ToolBarHeight + Constants.ToolBarSeparationHeight;
 
 
         private WindowsTile[,] windowsTileArray;

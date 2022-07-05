@@ -10,6 +10,7 @@ namespace Minesweeper
             this.frontEnd = frontEnd;
             InitialiseTextBoxes();
             InitialiseButtons();
+            frontEnd.windowsApplication.SetWindowSize(Constants.ScreenWidth, Constants.ScreenHeight);
         }
 
         private void InitialiseTextBoxes()

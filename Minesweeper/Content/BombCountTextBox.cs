@@ -10,7 +10,7 @@ namespace Minesweeper
     {
         public BombCountTextBox(string text, int locationX, int locationY) : base(text, locationX, locationY)
         {
-
+            
         }
     }
 }
